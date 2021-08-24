@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+*.tar.gz
+# rocksdb headers
+include/rocksdb
