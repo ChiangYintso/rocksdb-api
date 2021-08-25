@@ -32,5 +32,7 @@
 *.app
 
 *.tar.gz
-# rocksdb headers
+# rocksdb headers and sources
 include/rocksdb
+util
+port

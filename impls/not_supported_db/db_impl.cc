@@ -213,6 +213,4 @@ Status NotSupportDBImpl::GetPropertiesOfTablesInRange(
   return Status::NotSupported();
 }
 
-DB::~DB() {}
-
 }  // namespace ROCKSDB_NAMESPACE
