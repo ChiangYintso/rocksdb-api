@@ -10,12 +10,40 @@
 #include "rocksdb/db.h"
 
 namespace ROCKSDB_NAMESPACE {
+AdvancedColumnFamilyOptions::AdvancedColumnFamilyOptions() {
+  assert(memtable_factory.get() != nullptr);
+}
+
 DBOptions::DBOptions() {}
 DBOptions::DBOptions(const Options& options)
     : DBOptions(*static_cast<const DBOptions*>(&options)) {}
 
 ColumnFamilyOptions::ColumnFamilyOptions()
-: compression(kNoCompression),
-      table_factory(
-          std::shared_ptr<TableFactory>(nullptr)) {}
+    : compression(kNoCompression),
+      table_factory(std::shared_ptr<TableFactory>(nullptr)) {}
+
+ReadOptions::ReadOptions()
+    : snapshot(nullptr),
+      iterate_lower_bound(nullptr),
+      iterate_upper_bound(nullptr),
+      readahead_size(0),
+      max_skippable_internal_keys(0),
+      read_tier(kReadAllTier),
+      verify_checksums(true),
+      fill_cache(true),
+      tailing(false),
+      managed(false),
+      total_order_seek(false),
+      auto_prefix_mode(false),
+      prefix_same_as_start(false),
+      pin_data(false),
+      background_purge_on_iterator_cleanup(false),
+      ignore_range_deletions(false),
+      iter_start_seqnum(0),
+      timestamp(nullptr),
+      iter_start_ts(nullptr),
+      deadline(std::chrono::microseconds::zero()),
+      io_timeout(std::chrono::microseconds::zero()),
+      value_size_soft_limit(std::numeric_limits<uint64_t>::max()) {}
+
 }  // namespace ROCKSDB_NAMESPACE

@@ -24,6 +24,7 @@ endif()
 
 file(GLOB ROCKSDB_INTERFACE
         ${CMAKE_CURRENT_LIST_DIR}/env/*.cc
+        ${CMAKE_CURRENT_LIST_DIR}/memtable/skiplistrep.cc
         ${CMAKE_CURRENT_LIST_DIR}/table/*.cc
         ${CMAKE_CURRENT_LIST_DIR}/util/*.cc
         ${CMAKE_CURRENT_LIST_DIR}/options/*.cc

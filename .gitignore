@@ -34,5 +34,8 @@
 *.tar.gz
 # rocksdb headers and sources
 include/rocksdb
-util
+util/comparator.cc
+util/status.cc
+util/string_util.h
+!util/string_util.cc
 port

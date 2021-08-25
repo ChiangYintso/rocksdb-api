@@ -1,4 +1,4 @@
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(simple_example simple_example.cc)
-target_link_libraries(simple_example not_supported_db)
+add_executable(not_supported_db_example not_supported_db_example.cc)
+target_link_libraries(not_supported_db_example not_supported_db)
