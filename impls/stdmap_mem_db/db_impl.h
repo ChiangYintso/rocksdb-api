@@ -2,12 +2,22 @@
 
 #include "rocksdb/db.h"
 
-namespace ROCKSDB_NAMESPACE {
-class SkiplistMemDBImpl : public DB {
- public:
-  explicit SkiplistMemDBImpl(const std::string &dbname) : dbname_(dbname) {}
+namespace stdmap_mem_db {
+struct SliceComparator {
+  bool operator()(const ROCKSDB_NAMESPACE::Slice &s1,
+                  const ROCKSDB_NAMESPACE::Slice &s2) const {
+    int result = s1.compare(s2);
+    return result < 0;
+  }
+};
+}  // namespace stdmap_mem_db
 
-  ~SkiplistMemDBImpl() override = default;
+namespace ROCKSDB_NAMESPACE {
+class StdMapMemDBImpl : public DB {
+ public:
+  explicit StdMapMemDBImpl(const std::string &dbname) : dbname_(dbname) {}
+
+  ~StdMapMemDBImpl() override = default;
 
   Status Put(const WriteOptions &options, ColumnFamilyHandle *column_family,
              const Slice &key, const Slice &value) override;
@@ -123,6 +133,9 @@ class SkiplistMemDBImpl : public DB {
 
  protected:
   const std::string dbname_;
+
+ private:
+  std::map<Slice, Slice, stdmap_mem_db::SliceComparator> map_;
 };
 
 }  // namespace ROCKSDB_NAMESPACE

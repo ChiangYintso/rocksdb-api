@@ -4,7 +4,7 @@
 
 namespace ROCKSDB_NAMESPACE {
 Status DB::Open(const Options& options, const std::string& name, DB** dbptr) {
-  auto* impl = new NotSupportDBImpl(name);
+  auto* impl = new StdMapMemDBImpl(name);
   *dbptr = impl;
   return Status::OK();
 }
