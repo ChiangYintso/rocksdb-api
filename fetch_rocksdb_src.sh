@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ ! -e "v6.22.1.tar.gz" ]; then
-  curl -OL https://pd.zwc365.com/seturl/https://github.com/facebook/rocksdb/archive/refs/tags/v6.22.1.tar.gz
+  curl -OL https://github.com/facebook/rocksdb/archive/refs/tags/v6.22.1.tar.gz
 fi
 tar -xvf v6.22.1.tar.gz rocksdb-6.22.1/include/rocksdb \
                         rocksdb-6.22.1/util/comparator.cc \
