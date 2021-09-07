@@ -6,7 +6,7 @@ commands:
     steps:
       - run: apt-get -y update &&
           apt-get -y install
-          curl g++ git
+          curl g++-10 git
 
 jobs:
   build_with_cmake:
@@ -22,10 +22,11 @@ jobs:
       - run: |
           ./fetch_rocksdb_src.sh
           mkdir build && cd build
-          cmake ..
+          cmake .. -DCMAKE_C_COMPILER=/usr/bin/gcc-10 -DCMAKE_CXX_COMPILER=/usr/bin/g++-10
           cmake --build .
           ./examples/not_supported_db_example
           ./examples/stdmap_mem_db_example
+          ./examples/art_mem_db_example
 
 # Orchestrate or schedule a set of jobs
 workflows:
