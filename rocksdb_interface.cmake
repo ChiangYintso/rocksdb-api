@@ -1,3 +1,5 @@
+set(GIT_REPO_PREFIX "https://github.com" CACHE STRING "git repository url prefix")
+
 # copied from rocksdb
 if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zi /nologo /EHsc /GS /Gd /GR /GF /fp:precise /Zc:wchar_t /Zc:forScope /errorReport:queue")

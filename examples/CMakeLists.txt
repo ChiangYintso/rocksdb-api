@@ -5,3 +5,6 @@ target_link_libraries(not_supported_db_example not_supported_db)
 
 add_executable(stdmap_mem_db_example stdmap_mem_db_example.cc)
 target_link_libraries(stdmap_mem_db_example stdmap_mem_db)
+
+add_executable(art_mem_db_example art_mem_db_example.cc)
+target_link_libraries(art_mem_db_example art_mem_db)

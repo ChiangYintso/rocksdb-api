@@ -1,27 +1,16 @@
 #pragma once
 
 #include "rocksdb/db.h"
-
-namespace stdmap_mem_db {
-struct SliceComparator {
-  bool operator()(const ROCKSDB_NAMESPACE::Slice &s1,
-                  const ROCKSDB_NAMESPACE::Slice &s2) const {
-    int result = s1.compare(s2);
-    return result < 0;
-  }
-};
-}  // namespace stdmap_mem_db
+#include "art/art.h"
 
 namespace ROCKSDB_NAMESPACE {
-class StdMapMemDBImpl : public DB {
+class ARTMemDBImpl : public DB {
  public:
-  explicit StdMapMemDBImpl(const std::string &dbname)
-      : dbname_(dbname),
-        map_(std::make_shared<
-             std::map<Slice, Slice, stdmap_mem_db::SliceComparator>>(
-            std::map<Slice, Slice, stdmap_mem_db::SliceComparator>())) {}
+  explicit ARTMemDBImpl(const std::string &dbname) : dbname_(dbname) {
+    art_init(&art_);
+  }
 
-  ~StdMapMemDBImpl() override = default;
+  ~ARTMemDBImpl() override = default;
 
   Status Put(const WriteOptions &options, ColumnFamilyHandle *column_family,
              const Slice &key, const Slice &value) override;
@@ -135,11 +124,13 @@ class StdMapMemDBImpl : public DB {
       ColumnFamilyHandle *column_family, const Range *range, std::size_t n,
       TablePropertiesCollection *props) override;
 
+  Status IterValue(art_iter_value_callback cb, void *data);
+
  protected:
   const std::string dbname_;
 
  private:
-  std::shared_ptr<std::map<Slice, Slice, stdmap_mem_db::SliceComparator>> map_;
+  struct art art_;
 };
 
 }  // namespace ROCKSDB_NAMESPACE

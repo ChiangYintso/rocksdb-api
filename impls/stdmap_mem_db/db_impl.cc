@@ -1,19 +1,19 @@
 #include "db_impl.h"
-
+#include "db_iter.h"
 
 namespace ROCKSDB_NAMESPACE {
 Status StdMapMemDBImpl::Put(const WriteOptions &options,
                              ColumnFamilyHandle *column_family,
                              const Slice &key, const Slice &value) {
 
-  auto [iterator, inserted] = map_.insert_or_assign(key, value);
+  auto [iterator, inserted] = map_->insert_or_assign(key, value);
   return inserted ? Status::OK() : Status::OkOverwritten();
 }
 
 Status StdMapMemDBImpl::Delete(const WriteOptions &options,
                                 ColumnFamilyHandle *column_family,
                                 const Slice &key) {
-  map_.erase(key);
+  map_->erase(key);
   return Status::OK();
 }
 
@@ -35,8 +35,8 @@ Status StdMapMemDBImpl::Write(const WriteOptions &options,
 Status StdMapMemDBImpl::Get(const ReadOptions &options,
                              ColumnFamilyHandle *column_family,
                              const Slice &key, PinnableSlice *value) {
-  auto it = map_.find(key);
-  if (it == map_.end()) {
+  auto it = map_->find(key);
+  if (it == map_->end()) {
     return Status::NotFound();
   }
 
@@ -60,8 +60,9 @@ std::vector<Status> StdMapMemDBImpl::MultiGet(
 }
 Iterator *StdMapMemDBImpl::NewIterator(const ReadOptions &options,
                                         ColumnFamilyHandle *column_family) {
-  return nullptr;
+  return new StdMapDBIter(map_);
 }
+
 Status StdMapMemDBImpl::NewIterators(
     const ReadOptions &options,
     const std::vector<ColumnFamilyHandle *> &column_families,
